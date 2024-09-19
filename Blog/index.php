@@ -23,7 +23,7 @@ $result = $conn->query($sql);
 
 <header>
     <div class="container">
-        <h1>Bem-vindo ao Blog</h1>
+        <h1 class="logo">Bem-vindo ao Blog</h1>
         <div class="auth-buttons">
             <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
                 <p>Olá, <?= htmlspecialchars($_SESSION['username']) ?> | <a href="logout.php">Logout</a> | <a href="escrever.php">Escrever Post</a></p>
@@ -34,21 +34,23 @@ $result = $conn->query($sql);
     </div>
 </header>
 
-<div class="container">
+<main class="container">
     <h2>Publicações Recentes</h2>
 
     <?php if ($result->num_rows > 0): ?>
-        <?php while($row = $result->fetch_assoc()): ?>
-            <div class="post">
-                <h3><?= htmlspecialchars($row['titulo']) ?></h3>
-                <p><?= nl2br(htmlspecialchars($row['texto'])) ?></p>
-                <p><small>Publicado por <?= htmlspecialchars($row['nome']) ?> em <?= date('d/m/Y H:i', strtotime($row['data_postagem'])) ?></small></p>
-            </div>
-        <?php endwhile; ?>
+        <div class="blog-posts">
+            <?php while($row = $result->fetch_assoc()): ?>
+                <article class="post">
+                    <h3><?= htmlspecialchars($row['titulo']) ?></h3>
+                    <p><?= nl2br(htmlspecialchars($row['texto'])) ?></p>
+                    <p><small>Publicado por <?= htmlspecialchars($row['nome']) ?> em <?= date('d/m/Y H:i', strtotime($row['data_postagem'])) ?></small></p>
+                </article>
+            <?php endwhile; ?>
+        </div>
     <?php else: ?>
         <p>Nenhuma publicação encontrada.</p>
     <?php endif; ?>
-</div>
+</main>
 
 <footer>
     <div class="container">

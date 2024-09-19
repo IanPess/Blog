@@ -15,8 +15,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
-        $_SESSION['username'] = $user['nome']; // Definindo o nome do usuário na sessão
-        $_SESSION['logged_in'] = true; // Definindo o status de login
+        $_SESSION['username'] = $user['nome']; // Armazena o nome do usuário na sessão
+        $_SESSION['user_id'] = $user['id']; // Armazena o ID do usuário na sessão
+        $_SESSION['logged_in'] = true; // Define o status de login
         header("Location: index.php"); // Redireciona para a página principal
         exit;
     } else {
@@ -38,7 +39,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container">
     <h1>Login</h1>
 
-
     <form method="POST" action="">
         <div class="form-group">
             <label for="email">E-mail</label>
@@ -52,6 +52,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <button type="submit">Entrar</button>
     </form>
+
+    <?php if (isset($errorMessage)): ?>
+        <p style="color:red;"><?= $errorMessage ?></p>
+    <?php endif; ?>
 </div>
 
 </body>
